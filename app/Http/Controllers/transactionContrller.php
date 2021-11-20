@@ -67,9 +67,9 @@ class transactionContrller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id , Request $request)
     {
-        //
+
     }
 
     /**
@@ -103,6 +103,19 @@ class transactionContrller extends Controller
      */
     public function destroy($id)
     {
-        //
+        Transacion::find($id)->delete();
+        return response()->json(['message'=>'success']);
+    }
+
+    public function listing(Request $request)
+    {
+        $parent = "";
+        if ($request->has('card_id')){
+            $parent = Card::find($request->card_id);
+        }
+        if ($request->has('folder_id')){
+            $parent = Folder::find($request->folder_id);
+        }
+        return response()->json($parent->load('transactions'));
     }
 }
