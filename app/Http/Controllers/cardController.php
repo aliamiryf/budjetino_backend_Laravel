@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use Illuminate\Http\Request;
-use function Sodium\add;
-
+//use function Sodium\add;
+use Hekmatinasser\Verta\Verta;
 class cardController extends Controller
 {
     /**
@@ -20,9 +20,11 @@ class cardController extends Controller
 //        return $cart;
         foreach ($cart as $item){
             array_push($data,[
+                'id'=>$item->id,
                 'title'=>$item->title,
                 'cart_number'=>$item->cart_number,
                 'transactions'=>count($item->transactions),
+                'date'=>Verta::instance($item->created_at)->format('Y/m/d'),
             ]);
         }
         return response()->json($data);
@@ -48,6 +50,7 @@ class cardController extends Controller
     public function store(Request $request)
     {
         $card = Card::create([
+
             'cart_number' => $request->cart_number,
             'title' => $request->title,
             'user_id' => $request->user()->id,
@@ -70,6 +73,7 @@ class cardController extends Controller
         if (isset($card->user)) {
             if ($card->user->id == $reques->user()->id) {
                 $data = [
+                    'id'=>$card->id,
                     'title' => $card->title,
                     'cart_number' => $card->cart_number,
                     'transactions_count' => count($card->transactions)

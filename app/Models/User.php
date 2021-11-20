@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Folder::class , 'user_id')->orderBy('created_at','DESC');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transacion::class , 'user_id')->orderBy('created_at','DESC');
+    }
 }

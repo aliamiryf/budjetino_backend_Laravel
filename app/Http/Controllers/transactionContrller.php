@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use App\Models\Folder;
 use App\Models\Transacion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class transactionContrller extends Controller
@@ -14,10 +15,13 @@ class transactionContrller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = Transacion::find(1)->transactionable;
+        $transactions = $request->user()->transactions;
+        $transactions->load('transactionable');
         return $transactions;
+//        $transactions = Transacion::find(1)->transactionable;
+//        return $transactions;
     }
 
     /**
@@ -42,8 +46,8 @@ class transactionContrller extends Controller
         if ($request->has('card_id')){
             $type = Card::find($request->card_id);
         }
-        if ($request->has('folder_id')){
-            $type = Folder::find($request->card_id);
+            if ($request->has('folder_id')){
+            $type = Folder::find($request->folder_id);
         }
         $transactions = new Transacion([
             'amount'=>$request->amount,
