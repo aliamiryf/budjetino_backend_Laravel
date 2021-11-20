@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use Illuminate\Http\Request;
+use function Sodium\add;
 
 class cardController extends Controller
 {
@@ -14,7 +15,18 @@ class cardController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json($request->user()->cards);
+        $data = [];
+        $cart = $request->user()->cards;
+//        return $cart;
+        foreach ($cart as $item){
+            array_push($data,[
+                'title'=>$item->title,
+                'cart_number'=>$item->cart_number,
+                'transactions'=>count($item->transactions),
+            ]);
+        }
+        return response()->json($data);
+//        return response()->json($request->user()->cards);
     }
 
     /**

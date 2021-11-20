@@ -32,4 +32,5 @@ Route::middleware('auth:api')->prefix('v1')->group(function (){
     Route::resource('/card','App\Http\Controllers\cardController');
     Route::get('cards/restore/{id}','App\Http\Controllers\cardController@restore');
     Route::get('cards/force/{id}','App\Http\Controllers\cardController@force');
+    Route::resource('/folder','App\Http\Controllers\folderController');
 });

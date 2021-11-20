@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Card::class , 'user_id')->orderBy('created_at','DESC');
     }
+
+    public function folders()
+    {
+        return $this->hasMany(Folder::class , 'user_id')->orderBy('created_at','DESC');
+    }
 }
