@@ -19,7 +19,9 @@ Route::get('test',function (){
 });
 
 
-
+//user Route
+    Route::post('v1/signin','App\Http\Controllers\UserContorller@signin');
+//user Route
 Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //    return \App\Models\Card::all();
