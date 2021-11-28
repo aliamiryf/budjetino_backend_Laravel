@@ -18,27 +18,28 @@ class indexController extends Controller
         $user = $request->user();
         $transactions = $user->transactions;
         $month = Date::today()->month;
-//        return $month;
-        $lastmonth = Transacion::where('user_id', $user->id)->whereMonth('date', $month)->get();
+        $lastmonth = Transacion::where('user_id', $user->id)->whereMonth('date', 11)->get();
         $today = Transacion::where('user_id', $user->id)->where('created_at', Date::today())->with('transactionable')->get();
-
-
-//        return $lastmonth;
         foreach ($lastmonth as $item) {
+            $test = $item->amount;
+            $nochar = str_replace(',', '', $test);
             if ($item->type == "enter") {
-                $enter_lastM = $enter_lastM + $item->amount;
+                $enter_lastM = $enter_lastM + $nochar ;
             } else {
-                $exit_lastM = $exit_lastM + $item->amount;
+                $exit_lastM = $exit_lastM + $nochar;
+            }
+        }
 
-            }
-        }
         foreach ($transactions as $item) {
+            $test = $item->amount;
+            $nochar = str_replace(',', '', $test);
             if ($item->type == "enter") {
-                $enter = $enter + $item->amount;
+                $enter = $enter + $nochar;
             } else {
-                $exit = $exit + $item->amount;
+                $exit = $exit + $nochar;
             }
         }
+
 //        array_push($data , );
             return response()->json([
                 'folder' => count($user->folders),

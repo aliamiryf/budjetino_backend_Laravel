@@ -13,4 +13,9 @@ class Transacion extends Model
     public function transactionable(){
         return $this->morphTo();
     }
+
+    public function getAmountAttribute($val)
+    {
+        return number_format($val);
+    }
 }
