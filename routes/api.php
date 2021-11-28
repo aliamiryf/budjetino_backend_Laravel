@@ -26,6 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //    return \App\Models\Card::all();
 });
+
 Route::middleware('auth:api')->prefix('v1')->group(function (){
     Route::post('/insert_user',function (Request $request){
         return \App\Models\Folder::all();
@@ -36,4 +37,6 @@ Route::middleware('auth:api')->prefix('v1')->group(function (){
     Route::get('cards/force/{id}','App\Http\Controllers\cardController@force');
     Route::resource('/folder','App\Http\Controllers\folderController');
     Route::post('transactions/listing','App\Http\Controllers\transactionContrller@listing');
+    Route::get('indexes/dashbord','App\Http\Controllers\indexController@index');
+
 });
