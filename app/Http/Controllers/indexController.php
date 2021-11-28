@@ -14,42 +14,40 @@ class indexController extends Controller
         $enter = 0;
         $enter_lastM = 0;
         $exit = 0;
-        $exit_lastM=0;
+        $exit_lastM = 0;
         $user = $request->user();
-        $transactions = $user->transactions ;
+        $transactions = $user->transactions;
         $month = Date::today()->month;
-
-        $lastmonth = Transacion::where('user_id',$user->id)->whereMonth('date',$month)->get();
-        $today = Transacion::where('user_id',$user->id)->where('created_at',Date::today())->get();
+//        return $month;
+        $lastmonth = Transacion::where('user_id', $user->id)->whereMonth('date', $month)->get();
+        $today = Transacion::where('user_id', $user->id)->where('created_at', Date::today())->with('transactionable')->get();
 
 
 //        return $lastmonth;
-        foreach ($lastmonth as $item){
-            if ($item->type == "enter"){
+        foreach ($lastmonth as $item) {
+            if ($item->type == "enter") {
                 $enter_lastM = $enter_lastM + $item->amount;
-            }
-            else{
+            } else {
                 $exit_lastM = $exit_lastM + $item->amount;
 
             }
         }
-        foreach ($transactions as $item){
-            if ($item->type == "enter"){
+        foreach ($transactions as $item) {
+            if ($item->type == "enter") {
                 $enter = $enter + $item->amount;
-            }
-            else{
+            } else {
                 $exit = $exit + $item->amount;
             }
         }
-        array_push($data , [
-            'folder'=>count($user->folders),
-            'cart'=>count($user->cards),
-            'enter'=>$enter,
-            'exit'=>$exit,
-            'enter_LastMonth'=>$enter_lastM,
-            'exit_LastMonth'=>$exit_lastM,
-            'today'=>$today,
-        ]);
-        return $data;
+//        array_push($data , );
+            return response()->json([
+                'folder' => count($user->folders),
+                'cart' => count($user->cards),
+                'enter' => number_format($enter),
+                'exit' =>number_format($exit),
+                'enter_LastMonth' => number_format($enter_lastM),
+                'exit_LastMonth' => number_format($exit_lastM),
+                'today' => $today,
+            ]);
     }
 }
