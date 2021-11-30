@@ -49,6 +49,10 @@ class indexController extends Controller
                 'enter_LastMonth' => number_format($enter_lastM),
                 'exit_LastMonth' => number_format($exit_lastM),
                 'today' => $today,
+                'carts'=>$user->cards,
+                'folders'=>$user->folders,
+                'name'=>$request->user()->name,
+                'tell'=>$request->user()->tell,
             ]);
     }
 }
