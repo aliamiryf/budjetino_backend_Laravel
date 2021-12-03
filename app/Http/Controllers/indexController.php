@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class indexController extends Controller
 {
@@ -53,6 +54,7 @@ class indexController extends Controller
                 'folders'=>$user->folders,
                 'name'=>$request->user()->name,
                 'tell'=>$request->user()->tell,
+                'sldier'=>DB::table('slider')->get(),
             ]);
     }
 }

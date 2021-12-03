@@ -11,7 +11,7 @@ class Card extends Model
     protected $fillable=['cart_number','title','user_id'];
     use HasFactory,SoftDeletes;
     public function transactions(){
-        return $this->morphMany(Transacion::class , 'transactionable');
+        return $this->morphMany(Transacion::class , 'transactionable')->orderBy('date','DESC');
     }
 
     public function user()

@@ -69,14 +69,33 @@ class cardController extends Controller
     {
         $data = [];
         $card = Card::find($id);
+        $enter = 0;
+        $exit = 0;
+        $total =0;
 //       $card->load('transactions');
+        $transactions = $card->transactions;
+        foreach ($transactions as $item) {
+            $test = $item->amount;
+            $nochar = str_replace(',', '', $test);
+            if ($item->type == "enter") {
+                $enter = $enter + $nochar ;
+                $total = $total + $nochar;
+            } else {
+                $total = $total - $nochar;
+                $exit = $exit + $nochar;
+            }
+        }
         if (isset($card->user)) {
             if ($card->user->id == $reques->user()->id) {
                 $data = [
                     'id'=>$card->id,
                     'title' => $card->title,
                     'cart_number' => $card->cart_number,
-                    'transactions_count' => count($card->transactions)
+                    'transactions_count' => count($card->transactions),
+                    'enter'=>number_format($enter),
+                    'exit'=>number_format($exit),
+                    'total'=>number_format($total),
+                    'transactions'=>$card->transactions
                 ];
             }
         }
