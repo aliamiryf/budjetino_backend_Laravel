@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transacion;
+use Hekmatinasser\Verta\Verta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,8 @@ class indexController extends Controller
 {
     public function index(Request $request)
     {
+//        1400/09/12
+//        return Verta::now()->format('Y/m/d');
         $data = [];
         $enter = 0;
         $enter_lastM = 0;
@@ -19,8 +22,8 @@ class indexController extends Controller
         $user = $request->user();
         $transactions = $user->transactions;
         $month = Date::today()->month;
-        $lastmonth = Transacion::where('user_id', $user->id)->whereMonth('date', 11)->get();
-        $today = Transacion::where('user_id', $user->id)->where('created_at', Date::today())->with('transactionable')->get();
+        $lastmonth = Transacion::where('user_id', $user->id)->whereMonth('date', Verta::now()->format('m'))->get();
+        $today = Transacion::where('user_id', $user->id)->where('date', Verta::now()->format('Y/m/d'))->with('transactionable')->limit(5)->get();
         foreach ($lastmonth as $item) {
             $test = $item->amount;
             $nochar = str_replace(',', '', $test);
