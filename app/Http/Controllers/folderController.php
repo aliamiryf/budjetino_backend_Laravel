@@ -64,15 +64,39 @@ class folderController extends Controller
     {
         $data = [];
         $folder = Folder::find($id);
-        if ($folder->user_id == $request->user()->id){
-            $data = [
-                'id'=>$folder->id,
-                'title'=>$folder->title,
-                'date'=>Verta::instance($folder->created_at)->format('Y/m/d'),
-                'transactions'=>$folder->transactions,
-            ];
-            return  response()->json($data);
+
+        $enter = 0;
+        $exit = 0;
+        $total =0;
+//       $card->load('transactions');
+        $transactions = $folder->transactions;
+        foreach ($transactions as $item) {
+            $test = $item->amount;
+            $nochar = str_replace(',', '', $test);
+            if ($item->type == "enter") {
+                $enter = $enter + $nochar ;
+                $total = $total + $nochar;
+            } else {
+                $total = $total - $nochar;
+                $exit = $exit + $nochar;
+            }
         }
+        if (isset($folder->user)) {
+            if ($folder->user->id == $request->user()->id) {
+                $data = [
+                    'id'=>$folder->id,
+                    'title' => $folder->title,
+                    'transactions_count' => count($folder->transactions),
+                    'enter'=>number_format($enter),
+                    'exit'=>number_format($exit),
+                    'total'=>number_format($total),
+                    'date'=>Verta::instance($folder->created_at)->format('Y/m/d'),
+                    'transactions'=>$folder->transactions
+                ];
+            }
+        }
+
+        return response()->json($data);
     }
 
     /**

@@ -28,7 +28,7 @@ class indexController extends Controller
             $test = $item->amount;
             $nochar = str_replace(',', '', $test);
             if ($item->type == "enter") {
-                $enter_lastM = $enter_lastM + $nochar ;
+                $enter_lastM = $enter_lastM + $nochar;
             } else {
                 $exit_lastM = $exit_lastM + $nochar;
             }
@@ -45,19 +45,32 @@ class indexController extends Controller
         }
 
 //        array_push($data , );
-            return response()->json([
-                'folder' => count($user->folders),
-                'cart' => count($user->cards),
-                'enter' => number_format($enter),
-                'exit' =>number_format($exit),
-                'enter_LastMonth' => number_format($enter_lastM),
-                'exit_LastMonth' => number_format($exit_lastM),
-                'today' => $today,
-                'carts'=>$user->cards,
-                'folders'=>$user->folders,
-                'name'=>$request->user()->name,
-                'tell'=>$request->user()->tell,
-                'sldier'=>DB::table('slider')->get(),
-            ]);
+        return response()->json([
+            'folder' => count($user->folders),
+            'cart' => count($user->cards),
+            'enter' => number_format($enter),
+            'exit' => number_format($exit),
+            'enter_LastMonth' => number_format($enter_lastM),
+            'exit_LastMonth' => number_format($exit_lastM),
+            'today' => $today,
+            'carts' => $user->cards,
+            'folders' => $user->folders,
+            'name' => $request->user()->name,
+            'tell' => $request->user()->tell,
+            'sldier' => DB::table('slider')->get(),
+        ]);
+    }
+
+    public function profile(Request $request)
+    {
+        return response()->json([
+            'cart'=>count($request->user()->cards),
+            'folder'=>count($request->user()->folders),
+            'transactions'=>count($request->user()->transactions),
+            'name'=>$request->user()->name,
+            'email'=>$request->user()->email,
+            'tell'=>$request->user()->tell,
+            'date'=>Verta($request->user()->created_at)->format('Y/m/d')
+        ]);
     }
 }

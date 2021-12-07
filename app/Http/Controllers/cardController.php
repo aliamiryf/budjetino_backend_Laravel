@@ -65,7 +65,7 @@ class cardController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Request $reques)
+    public function show($id, Request $request)
     {
         $data = [];
         $card = Card::find($id);
@@ -86,7 +86,7 @@ class cardController extends Controller
             }
         }
         if (isset($card->user)) {
-            if ($card->user->id == $reques->user()->id) {
+            if ($card->user->id == $request->user()->id) {
                 $data = [
                     'id'=>$card->id,
                     'title' => $card->title,
@@ -95,6 +95,7 @@ class cardController extends Controller
                     'enter'=>number_format($enter),
                     'exit'=>number_format($exit),
                     'total'=>number_format($total),
+                    'date'=>Verta::instance($card->created_at)->format('Y/m/d'),
                     'transactions'=>$card->transactions
                 ];
             }
