@@ -20,4 +20,18 @@ class UserContorller extends Controller
         ]);
         return response()->json(['message'=>'success'])->setStatusCode(202);
     }
+
+    public function edit(Request $request)
+    {
+        $request->validate([
+            'email'=>'required|email',
+            'tell'=>'required|',
+        ]);
+        $user = $request->user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->tell = $request->tell;
+        $user->save();
+        return $user;
+    }
 }

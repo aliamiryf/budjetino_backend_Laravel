@@ -39,4 +39,5 @@ Route::middleware('auth:api')->prefix('v1')->group(function (){
     Route::post('transactions/listing','App\Http\Controllers\transactionContrller@listing');
     Route::get('indexes/dashbord','App\Http\Controllers\indexController@index');
     Route::get('indexes/profile','App\Http\Controllers\indexController@profile');
+    Route::post('profile/edit','App\Http\Controllers\UserContorller@edit');
 });
