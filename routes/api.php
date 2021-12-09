@@ -27,6 +27,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return \App\Models\Card::all();
 });
 
+Route::post('forgetPassword',[\App\Http\Controllers\UserContorller::class , 'resetpassword']);
+
 Route::middleware('auth:api')->prefix('v1')->group(function (){
     Route::post('/insert_user',function (Request $request){
         return \App\Models\Folder::all();
@@ -40,4 +42,6 @@ Route::middleware('auth:api')->prefix('v1')->group(function (){
     Route::get('indexes/dashbord','App\Http\Controllers\indexController@index');
     Route::get('indexes/profile','App\Http\Controllers\indexController@profile');
     Route::post('profile/edit','App\Http\Controllers\UserContorller@edit');
+
 });
+//require __DIR__.'/auth.php';
