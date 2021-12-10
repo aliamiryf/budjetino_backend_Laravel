@@ -1,9 +1,9 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+{{--            <a href="/">--}}
+{{--                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />--}}
+{{--            </a>--}}
         </x-slot>
 
         <!-- Validation Errors -->
@@ -17,9 +17,9 @@
 
             <!-- Email Address -->
             <div>
-                <x-label for="email" :value="__('Email')" />
+{{--                <x-label for="email" :value="__('Email')" />--}}
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+                <x-input id="email" class="block mt-1 w-full" type="hidden" name="email" :value="old('email', $request->email)" required autofocus />
             </div>
 
             <!-- Password -->
@@ -40,7 +40,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 <x-button>
-                    {{ __('Reset Password') }}
+                    {{ __('بازیابی رمز عبور') }}
                 </x-button>
             </div>
         </form>
